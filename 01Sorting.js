@@ -1,28 +1,33 @@
-const arr1 = [2,4,6,8,10,12]
-const arr2 = [1,3,6,8,11,13]
 
-const coherenceArr = [2,1,4,3,10,11,12,13]
-
-
-function quickSort(arr) {
-  if (arr.length <= 1) {
+function mergeSort(arr) {
+  if (arr.length < 2) {
     return arr;
   }
+  var middle = Math.floor(arr.length / 2);
+  var left = arr.slice(0, middle);
+  var right = arr.slice(middle);
 
-  var pivot = arr[0];
-  var left = [];
-  var right = [];
-
-  for (var i = 1; i < arr.length; i++) {
-    if (arr[i] < pivot) {
-      left.push(arr[i]);
-    } else {
-      right.push(arr[i]);
-    }
-  }
-
-  return quickSort(left).concat([pivot], quickSort(right));
+  return merge(mergeSort(left), mergeSort(right));
 }
 
-console.log(quickSort(coherenceArr));
+function merge(left, right) {
+  var result = [];
+  var il = 0;
+  var ir = 0;
+  while (il < left.length && ir < right.length) {
+    if (left[il] < right[ir]) {
+      result.push(left[il++]);
+    } else {
+      result.push(right[ir++]);
+    }
+  }
+  return result.concat(left.slice(il)).concat(right.slice(ir));
+}
+
+const arr1 = [2,4,6,8,10,12]
+const arr2 = [1,3,6,8,11,13]
+const coherenceArr = [2,1,4,3,10,11,12,13]
+
+console.log(mergeSort(coherenceArr));
+
 
